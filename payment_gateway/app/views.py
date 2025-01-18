@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.conf import settings
 import razorpay
 import json 
-from django.views.decoraters.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt
 
 from django.shortcuts import render
 from .models import *
@@ -65,12 +65,12 @@ def callback(request):
         if not verify_signature(request.POST):
             order.status = PaymentStatus.SUCCESS
             order.save()
-            return render(request, "callback.html", context={"status": order.status})   # callback giving html page
+            return render(request, "callback.html", context={"status": order.status}) 
            
         else:
             order.status = PaymentStatus.FAILURE
             order.save()
-            return render(request, "callback.html", context={"status": order.status})  # callback giving html page
+            return render(request, "callback.html", context={"status": order.status})  
         
 
     else:
@@ -82,6 +82,6 @@ def callback(request):
         order.payment_id = payment_id
         order.status = PaymentStatus.FAILURE
         order.save()
-        return render(request, "callback.html", context={"status": order.status})  # callback giving html page
+        return render(request, "callback.html", context={"status": order.status})
  
 
